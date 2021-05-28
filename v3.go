@@ -60,8 +60,6 @@ func (r *recaptchaV3) Verify(token string, remoteIP ...string) (*ResponseV3, err
 	err = json.Unmarshal(resp, &response)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unmarshal reCAPTCHA response JSON: %v", string(resp))
-	} else if response.Success != true {
-		return nil, errors.Wrapf(err, "verify reCAPTCHA: %q", response.ErrorCodes)
 	}
 
 	return &response, nil
