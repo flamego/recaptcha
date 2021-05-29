@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// RecaptchaV3 is a RecaptchaV3 verify interface.
+// RecaptchaV3 is a reCAPTCHA V3 verify interface.
 type RecaptchaV3 interface {
 	// Verify user's response and send result back to client.
 	// It returns a score (1.0 is very likely a good interaction, 0.0 is very likely a bot).
