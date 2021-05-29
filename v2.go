@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// RecaptchaV2 is a RecaptchaV2 verify interface.
+// RecaptchaV2 is a reCAPTCHA V2 verify interface.
 type RecaptchaV2 interface {
 	// Verify user's response and send result back to client.
 	Verify(token string, remoteIP ...string) (*ResponseV2, error)
