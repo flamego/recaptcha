@@ -44,7 +44,7 @@ type ResponseV3 struct {
 
 func (r *recaptchaV3) Verify(token string, remoteIP ...string) (*ResponseV3, error) {
 	if token == "" {
-		return nil, errors.New("null token")
+		return nil, errors.New("empty token")
 	}
 
 	if len(remoteIP) > 0 {
