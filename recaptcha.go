@@ -25,7 +25,7 @@ type Version int
 
 // Options contains options for the recaptcha.RecaptchaV2 middleware.
 type Options struct {
-	// Secret key is Required. It's the shared key between your site and reCAPTCHA.
+	// Secret key is required. It's the shared key between your site and reCAPTCHA.
 	Secret string
 
 	VerifyURL
