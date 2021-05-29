@@ -39,7 +39,7 @@ func V2(opts Options) flamego.Handler {
 	}
 
 	if opts.VerifyURL == "" {
-		opts.VerifyURL = Google
+		opts.VerifyURL = VerifyURLGoogle
 	}
 
 	return flamego.ContextInvoker(func(c flamego.Context) {
