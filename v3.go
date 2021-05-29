@@ -20,13 +20,13 @@ type RecaptchaV3 interface {
 }
 
 type recaptchaV3 struct {
-	// Required. The shared key between your site and reCAPTCHA.
+	// secret is the shared key between your site and reCAPTCHA. [Required]
 	secret string
-	// Required. The user response token provided by the reCAPTCHA client-side integration on your site.
+	// response is the user response token provided by the reCAPTCHA client-side integration on your site. [Required]
 	response string
-	// Optional. The user's IP address.
+	// remoteIP is the user's IP address. [Optional]
 	remoteIP string
-
+	// verifyURL is the reCAPTCHA backend service URL.
 	verifyURL string
 }
 
