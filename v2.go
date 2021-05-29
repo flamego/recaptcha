@@ -32,6 +32,7 @@ type recaptchaV2 struct {
 
 // ResponseV2 is the response struct which Google send back to the client.
 type ResponseV2 struct {
+	// Success shows whether the user is a real human.
 	Success bool `json:"success"`
 	// ChallengeTS is the timestamp of the challenge load (ISO format yyyy-MM-dd'T'HH:mm:ssZZ).
 	ChallengeTS time.Time `json:"challenge_ts"`

@@ -14,16 +14,16 @@ import (
 type VerifyURL string
 
 const (
-	// Google is the default url to verify reCAPTCHA requests.
+	// VerifyURLGoogle is the default url to verify reCAPTCHA requests.
 	VerifyURLGoogle VerifyURL = "https://www.google.com/recaptcha/api/siteverify"
 
-	// Global is for the people who can't connect to the Google's server.
+	// VerifyURLGlobal is for the people who can't connect to the Google's server.
 	VerifyURLGlobal VerifyURL = "https://www.recaptcha.net/recaptcha/api/siteverify"
 )
 
 type Version int
 
-// Options contains options for the recaptcha.RecaptchaV2 middleware.
+// Options contains options for the recaptcha.RecaptchaV2 and recaptcha.RecaptchaV3 middleware.
 type Options struct {
 	// Secret key is required. It's the shared key between your site and reCAPTCHA.
 	Secret string

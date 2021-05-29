@@ -31,7 +31,7 @@ func TestV2(t *testing.T) {
 	})
 
 	resp := httptest.NewRecorder()
-	req, err := http.NewRequest(http.MethodGet, "/", nil)
+	req, err := http.NewRequest(http.MethodGet, "/", strings.NewReader("some response"))
 	assert.Nil(t, err)
 
 	f.ServeHTTP(resp, req)
