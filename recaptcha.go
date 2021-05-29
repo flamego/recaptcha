@@ -35,7 +35,7 @@ type Options struct {
 // into the request context, which is used for verifying reCAPTCHA V2 requests.
 func V2(opts Options) flamego.Handler {
 	if opts.Secret == "" {
-		panic("Null secret input!")
+		panic("recaptcha: empty secret")
 	}
 
 	if opts.VerifyURL == "" {
