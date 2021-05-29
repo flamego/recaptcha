@@ -55,7 +55,7 @@ func V2(opts Options) flamego.Handler {
 // into the request context, which is used for verifying reCAPTCHA V3 requests.
 func V3(opts Options) flamego.Handler {
 	if opts.Secret == "" {
-		panic("Null secret value input!")
+		panic("recaptcha: empty secret")
 	}
 
 	if opts.VerifyURL == "" {
