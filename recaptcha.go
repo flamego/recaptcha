@@ -18,7 +18,7 @@ const (
 	VerifyURLGoogle VerifyURL = "https://www.google.com/recaptcha/api/siteverify"
 
 	// Global is for the people who can't connect to the Google's server.
-	Global VerifyURL = "https://www.recaptcha.net/recaptcha/api/siteverify"
+	VerifyURLGlobal VerifyURL = "https://www.recaptcha.net/recaptcha/api/siteverify"
 )
 
 type Version int
