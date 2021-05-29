@@ -13,7 +13,7 @@ import (
 
 // RecaptchaV3 is a reCAPTCHA V3 verify interface.
 type RecaptchaV3 interface {
-	// Verify user's response and send result back to client.
+	// Verify verifies user's response and send result back to client.
 	// It returns a score (1.0 is very likely a good interaction, 0.0 is very likely a bot).
 	// Based on the score, you can take variable action in the context of your site.
 	Verify(token string, remoteIP ...string) (*ResponseV3, error)
