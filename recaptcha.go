@@ -15,7 +15,7 @@ type VerifyURL string
 
 const (
 	// Google is the default url to verify reCAPTCHA requests.
-	Google VerifyURL = "https://www.google.com/recaptcha/api/siteverify"
+	VerifyURLGoogle VerifyURL = "https://www.google.com/recaptcha/api/siteverify"
 
 	// Global is for the people who can't connect to the Google's server.
 	Global VerifyURL = "https://www.recaptcha.net/recaptcha/api/siteverify"
