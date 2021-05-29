@@ -72,7 +72,7 @@ func V3(opts Options) flamego.Handler {
 	})
 }
 
-// request requests specific url and return response.
+// request requests specific url and returns response.
 func request(url, secret, response, ip string) ([]byte, error) {
 	params := req.Param{
 		"secret":   secret,
