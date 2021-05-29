@@ -19,7 +19,7 @@ func TestV2(t *testing.T) {
 	f := flamego.NewWithLogger(&bytes.Buffer{})
 	f.Use(V2(Options{
 		Secret:    "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
-		VerifyURL: Global,
+		VerifyURL: VerifyURLGlobal,
 	}))
 	f.Get("/", func(c flamego.Context, r *recaptchaV2) bool {
 		response, err := c.Request().Body().String()
