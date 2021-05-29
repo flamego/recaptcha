@@ -84,7 +84,7 @@ func request(url, secret, response, ip string) ([]byte, error) {
 
 	resp, err := req.Get(url, params)
 	if err != nil {
-		return nil, errors.Wrapf(err, "request %q: ", url)
+		return nil, errors.Wrapf(err, "request %q", url)
 	}
 
 	return resp.Bytes(), nil
