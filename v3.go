@@ -42,6 +42,7 @@ type ResponseV3 struct {
 	ErrorCodes  []string  `json:"error-codes"`  // optional
 }
 
+// Verify verifies user's response and send result back to client.
 func (r *recaptchaV3) Verify(token string, remoteIP ...string) (*ResponseV3, error) {
 	if token == "" {
 		return nil, errors.New("empty token")

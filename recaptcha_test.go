@@ -21,7 +21,7 @@ func TestV2(t *testing.T) {
 		Secret:    "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
 		VerifyURL: VerifyURLGlobal,
 	}))
-	f.Get("/", func(c flamego.Context, r *recaptchaV2) bool {
+	f.Post("/", func(c flamego.Context, r *recaptchaV2) bool {
 		response, err := c.Request().Body().String()
 		assert.Nil(t, err)
 
@@ -31,7 +31,7 @@ func TestV2(t *testing.T) {
 	})
 
 	resp := httptest.NewRecorder()
-	req, err := http.NewRequest(http.MethodGet, "/", strings.NewReader("some response"))
+	req, err := http.NewRequest(http.MethodPost, "/", strings.NewReader("some response"))
 	assert.Nil(t, err)
 
 	f.ServeHTTP(resp, req)
