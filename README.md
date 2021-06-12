@@ -1,5 +1,10 @@
 # recaptcha
 
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/flamego/recaptcha/Go?logo=github&style=for-the-badge)](https://github.com/flamego/recaptcha/actions?query=workflow%3AGo)
+[![Codecov](https://img.shields.io/codecov/c/gh/flamego/recaptcha?logo=codecov&style=for-the-badge)](https://app.codecov.io/gh/flamego/recaptcha)
+[![GoDoc](https://img.shields.io/badge/GoDoc-Reference-blue?style=for-the-badge&logo=go)](https://pkg.go.dev/github.com/flamego/recaptcha?tab=doc)
+[![Sourcegraph](https://img.shields.io/badge/view%20on-Sourcegraph-brightgreen.svg?style=for-the-badge&logo=sourcegraph)](https://sourcegraph.com/github.com/flamego/recaptcha)
+
 Package recaptcha is a middleware that provides the verifying for reCAPTCHA.
 
 ## Installation
@@ -24,7 +29,7 @@ func main() {
 		Secret: "<YOUR_SECRET_HERE>",
 		VerifyURL: Global,
 	}))
-	f.Get("/verify", func(c flamego.Context, r *recaptcha.recaptchaV2) {
+	f.Get("/verify", func(c flamego.Context, r *recaptcha.RecaptchaV2) {
 		response, err := r.Verify(input)
 		if response.Success{
 			//... 

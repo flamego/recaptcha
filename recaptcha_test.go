@@ -21,7 +21,7 @@ func TestV2(t *testing.T) {
 		Secret:    "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
 		VerifyURL: VerifyURLGlobal,
 	}))
-	f.Post("/", func(c flamego.Context, r *recaptchaV2) bool {
+	f.Post("/", func(c flamego.Context, r RecaptchaV2) bool {
 		response, err := c.Request().Body().String()
 		assert.Nil(t, err)
 
