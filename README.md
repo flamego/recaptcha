@@ -27,9 +27,9 @@ func main() {
 	f := flamego.Classic()
 	f.Use(recaptcha.V2(recaptcha.Options{
 		Secret: "<YOUR_SECRET_HERE>",
-		VerifyURL: Global,
+		VerifyURL: recaptcha.VerifyURLGlobal,
 	}))
-	f.Get("/verify", func(c flamego.Context, r *recaptcha.RecaptchaV2) {
+	f.Get("/verify", func(c flamego.Context, r recaptcha.RecaptchaV2) {
 		response, err := r.Verify(input)
 		if response.Success{
 			//... 
