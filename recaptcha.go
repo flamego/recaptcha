@@ -25,8 +25,6 @@ const (
 	VerifyURLGlobal VerifyURL = "https://www.recaptcha.net/recaptcha/api/siteverify"
 )
 
-type Version int
-
 // Options contains options for both recaptcha.RecaptchaV2 and recaptcha.RecaptchaV3 middleware.
 type Options struct {
 	// Secret is the shared key between your site and reCAPTCHA. This field is required.
