@@ -9,26 +9,27 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/flamego/flamego"
 	"github.com/pkg/errors"
+
+	"github.com/flamego/flamego"
 )
 
-// VerifyURL is the url to verify user input.
+// VerifyURL is the API URL to verify user input.
 type VerifyURL string
 
 const (
-	// VerifyURLGoogle is the default url to verify reCAPTCHA requests.
+	// VerifyURLGoogle is the default API URL to verify reCAPTCHA requests.
 	VerifyURLGoogle VerifyURL = "https://www.google.com/recaptcha/api/siteverify"
 
-	// VerifyURLGlobal is for the people who can't connect to the Google's server.
+	// VerifyURLGlobal is API URL for the people who can't connect to the Google's server.
 	VerifyURLGlobal VerifyURL = "https://www.recaptcha.net/recaptcha/api/siteverify"
 )
 
 type Version int
 
-// Options contains options for the recaptcha.RecaptchaV2 and recaptcha.RecaptchaV3 middleware.
+// Options contains options for both recaptcha.RecaptchaV2 and recaptcha.RecaptchaV3 middleware.
 type Options struct {
-	// Secret key is required. It's the shared key between your site and reCAPTCHA.
+	// Secret is the shared key between your site and reCAPTCHA. This field is required.
 	Secret string
 
 	VerifyURL
@@ -46,11 +47,11 @@ func V2(opts Options) flamego.Handler {
 	}
 
 	return flamego.ContextInvoker(func(c flamego.Context) {
-		var client RecaptchaV2 = &recaptchaV2{
+		client := &recaptchaV2{
 			secret:    opts.Secret,
 			verifyURL: string(opts.VerifyURL),
 		}
-		c.Map(client)
+		c.MapTo(client, (*RecaptchaV2)(nil))
 	})
 }
 
