@@ -6,7 +6,7 @@ package recaptcha
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -77,19 +77,13 @@ func V3(opts Options) flamego.Handler {
 // request requests specific url and returns response.
 func request(url, secret, response, remoteIP string) ([]byte, error) {
 	url = fmt.Sprintf("%s?secret=%s&response=%s&remoteIP=%s", url, secret, response, remoteIP)
-	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	if err != nil {
-		return nil, errors.Wrap(err, "build request")
-	}
-
-	res, err := client.Do(req)
+	res, err := http.Get(url)
 	if err != nil {
 		return nil, errors.Wrapf(err, "request %q", url)
 	}
-	defer res.Body.Close()
+	defer func() { _ = res.Body.Close() }()
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, errors.Wrap(err, "read response body")
 	}
