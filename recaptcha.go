@@ -87,7 +87,6 @@ func request(url, secret, response, remoteIP string) ([]byte, error) {
 	if err != nil {
 		return nil, errors.Wrapf(err, "request %q", url)
 	}
-
 	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
