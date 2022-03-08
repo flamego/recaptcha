@@ -5,9 +5,9 @@
 package recaptcha
 
 import (
-	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 
 	"github.com/pkg/errors"
 
@@ -27,7 +27,9 @@ const (
 
 // Options contains options for both recaptcha.RecaptchaV2 and recaptcha.RecaptchaV3 middleware.
 type Options struct {
-	// Secret is the shared key between your site and reCAPTCHA. This field is required.
+	// Client the HTTP client to make requests. The default is http.DefaultClient.
+	Client *http.Client
+	// Secret is the secret key to check user captcha codes. This field is required.
 	Secret string
 
 	VerifyURL
@@ -36,6 +38,10 @@ type Options struct {
 // V2 returns a middleware handler that injects recaptcha.RecaptchaV2
 // into the request context, which is used for verifying reCAPTCHA V2 requests.
 func V2(opts Options) flamego.Handler {
+	if opts.Client == nil {
+		opts.Client = http.DefaultClient
+	}
+
 	if opts.Secret == "" {
 		panic("recaptcha: empty secret")
 	}
@@ -46,6 +52,7 @@ func V2(opts Options) flamego.Handler {
 
 	return flamego.ContextInvoker(func(c flamego.Context) {
 		client := &recaptchaV2{
+			client:    opts.Client,
 			secret:    opts.Secret,
 			verifyURL: string(opts.VerifyURL),
 		}
@@ -66,6 +73,7 @@ func V3(opts Options) flamego.Handler {
 
 	return flamego.ContextInvoker(func(c flamego.Context) {
 		var client RecaptchaV3 = &recaptchaV3{
+			client:    opts.Client,
 			secret:    opts.Secret,
 			verifyURL: string(opts.VerifyURL),
 		}
@@ -74,16 +82,19 @@ func V3(opts Options) flamego.Handler {
 	})
 }
 
-// request requests specific url and returns response.
-func request(url, secret, response, remoteIP string) ([]byte, error) {
-	url = fmt.Sprintf("%s?secret=%s&response=%s&remoteIP=%s", url, secret, response, remoteIP)
-	res, err := http.Get(url)
-	if err != nil {
-		return nil, errors.Wrapf(err, "request %q", url)
+func request(client *http.Client, endpoint, secret, response, remoteIP string) ([]byte, error) {
+	data := url.Values{
+		"secret":   {secret},
+		"response": {response},
+		"remoteip": {remoteIP},
 	}
-	defer func() { _ = res.Body.Close() }()
+	resp, err := client.PostForm(endpoint, data)
+	if err != nil {
+		return nil, errors.Wrapf(err, "POST %q", endpoint)
+	}
+	defer func() { _ = resp.Body.Close() }()
 
-	body, err := io.ReadAll(res.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, errors.Wrap(err, "read response body")
 	}
