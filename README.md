@@ -15,25 +15,67 @@ The minimum requirement of Go is **1.16**.
 
 ## Getting started
 
+```html
+<!-- templates/home.tmpl -->
+<html>
+<head>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+</head>
+<body>
+<script>
+  function onSubmit(token) {
+    document.getElementById("demo-form").submit();
+  }
+</script>
+<form id="demo-form" method="POST">
+  <button class="g-recaptcha"
+    data-sitekey="{{.SiteKey}}"
+    data-callback='onSubmit'
+    data-action='submit'>Submit</button>
+</form>
+</body>
+</html>
+```
+
 ```go
 package main
 
 import (
+	"fmt"
+	"net/http"
+
 	"github.com/flamego/flamego"
-	"github.com/flamego/recaptcha"
+	"github.com/flamego/hcaptcha"
+	"github.com/flamego/template"
 )
 
 func main() {
 	f := flamego.Classic()
-	f.Use(recaptcha.V2(recaptcha.Options{
-		Secret: "<YOUR_SECRET_HERE>",
-		VerifyURL: recaptcha.VerifyURLGlobal,
-	}))
-	f.Get("/verify", func(c flamego.Context, r recaptcha.RecaptchaV2) {
-		response, err := r.Verify(input)
-		if response.Success{
-			//... 
+	f.Use(template.Templater())
+	f.Use(recaptcha.V3(
+		recaptcha.Options{
+			Secret:    "<SECRET>",
+			VerifyURL: recaptcha.VerifyURLGoogle,
+		},
+	))
+	f.Get("/", func(t template.Template, data template.Data) {
+		data["SiteKey"] = "<SITE KEY>"
+		t.HTML(http.StatusOK, "home")
+	})
+	f.Post("/", func(w http.ResponseWriter, r *http.Request, re recaptcha.RecaptchaV3) {
+		token := r.PostFormValue("g-recaptcha-response")
+		resp, err := re.Verify(token)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			_, _ = w.Write([]byte(err.Error()))
+			return
+		} else if !resp.Success {
+			w.WriteHeader(http.StatusBadRequest)
+			_, _ = w.Write([]byte(fmt.Sprintf("Verification failed, error codes %v", resp.ErrorCodes)))
+			return
 		}
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("Verified!"))
 	})
 	f.Run()
 }
