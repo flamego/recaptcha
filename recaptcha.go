@@ -63,6 +63,10 @@ func V2(opts Options) flamego.Handler {
 // V3 returns a middleware handler that injects recaptcha.RecaptchaV3
 // into the request context, which is used for verifying reCAPTCHA V3 requests.
 func V3(opts Options) flamego.Handler {
+	if opts.Client == nil {
+		opts.Client = http.DefaultClient
+	}
+
 	if opts.Secret == "" {
 		panic("recaptcha: empty secret")
 	}
