@@ -29,7 +29,7 @@ func main() {
 
 	f.Get("/", func(w http.ResponseWriter) {
 		w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-		_, _ = w.Write([]byte(fmt.Sprintf(`
+		_, _ = fmt.Fprintf(w, `
 <html>
 <head>
 	<script src="https://www.google.com/recaptcha/api.js"></script>
@@ -48,7 +48,7 @@ func main() {
 	</form>
 </body>
 </html>
-`, *siteKey)))
+`, *siteKey)
 	})
 
 	f.Post("/", func(w http.ResponseWriter, r *http.Request, re recaptcha.RecaptchaV3) {
@@ -61,7 +61,7 @@ func main() {
 			return
 		} else if !resp.Success {
 			w.WriteHeader(http.StatusBadRequest)
-			_, _ = w.Write([]byte(fmt.Sprintf("Verification failed, error codes %v", resp.ErrorCodes)))
+			_, _ = fmt.Fprintf(w, "Verification failed, error codes %v", resp.ErrorCodes)
 			return
 		}
 		w.WriteHeader(http.StatusOK)
